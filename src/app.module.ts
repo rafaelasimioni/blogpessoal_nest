@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { Usuario } from './usuario/entities/usuario.entity';
 import { AppController } from './app.controller';
+import { ProdService } from './data/services/prod.service';
 
 @Module({
   imports: [
@@ -19,16 +20,11 @@ import { AppController } from './app.controller';
     }),
 
     //Configuração do MySQL usando variáveis do .env
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      entities: [Postagem,Tema,Usuario],
-      synchronize: true,
-    }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+	  useClass: ProdService,
+    imports: [ConfigModule],
+}),
     PostagemModule,
     TemaModule,
     AuthModule,
