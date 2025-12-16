@@ -11,14 +11,14 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 export class PostagemController{
     constructor(private readonly postagemService: PostagemService){}
 
-  
+   
     @Get()
     @HttpCode(HttpStatus.OK)
     findAll(): Promise<Postagem[]>{
         return this.postagemService.findAll();
     }
 
-
+   
     @Get('/:id')
     @HttpCode(HttpStatus.OK)
     findById(@Param('id', ParseIntPipe) id:number):Promise<Postagem>{
@@ -26,11 +26,13 @@ export class PostagemController{
     }
 
 
-    @Get('/:titulo')
+    @Get('/titulo/:titulo')
     @HttpCode(HttpStatus.OK)
-    findAllByTitulo(@Param('titulo') titulo:string):Promise<Postagem[]>{
+    findAllByTitulo(@Param('titulo')titulo:string):Promise<Postagem[]>{
         return this.postagemService.findAllByTitulo(titulo);
     }
+
+    
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
@@ -38,6 +40,7 @@ export class PostagemController{
         return this.postagemService.create(postagem);
     }
 
+    
     @Put()
     @HttpCode(HttpStatus.OK)
     update(@Body() postagem:Postagem):Promise<Postagem>{
@@ -45,6 +48,7 @@ export class PostagemController{
     }
 
 
+    
     @Delete('/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
     delete(@Param('id', ParseIntPipe)id:number){

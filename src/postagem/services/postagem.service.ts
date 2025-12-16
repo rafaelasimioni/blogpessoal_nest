@@ -41,17 +41,20 @@ export class PostagemService{
     }
 
     async findAllByTitulo(titulo:string):Promise<Postagem[]>{
-        return await this.postagemRepository.find({
+        const tituloPostagem = await this.postagemRepository.find({
             where:{
                 titulo: ILike(`%${titulo}%`)
-            },
-            relations:{
-                tema: true,
-                usuario:true
-            },
+            }
+            });
 
-        });
+            if(tituloPostagem.length === 0)
+                throw new HttpException('Nenhuma postagem encontrada com esse título', HttpStatus.NOT_FOUND);
+        
+        return tituloPostagem;
     }
+        
+       
+
 
     async create(postagem: Postagem):Promise<Postagem>{
 
